@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+  </head>
+  <body>
+
+     <!-- Use components defined in separate files. -->
+     <script src="arrow-key-rotation.js"></script>
+
+     <!-- <script>
+       
+function loadHandler(event) {
+  if (window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function') {
+    const dialog = document.createElement('a-text')
+    dialog.setAttribute("value", "Click here to enable DeviceMotion Sensor")
+    dialog.addEventListener('click', clickHandler);
+    document.querySelector('#scene').appendChild(dialog)
+  }
+  
+}
+      
+function clickHandler() {
+    window.DeviceMotionEvent.requestPermission()
+      .then(response => {
+        if (response === 'granted') {
+          if (typeof amp === 'undefined') {
+            createPlayer(config)
+          }
+        } else {
+          console.log('Permission not granted.')
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+     </script> 
+      -->
+     <!-- <script>
+     DeviceMotionEvent.requestPermission()
+.then(response => {
+  if (response == 'granted') {
+    window.addEventListener('devicemotion', (e) => {
+      // do something with e
+    })
+  }
+})
+.catch(console.error)
+     </script>
+
+          <!-- RAYCASTER FUNCTIONALITY -->
+  <script>
+    AFRAME.registerComponent('collider-check', {
+dependencies: ['raycaster'],
+
+init: function () {
+  this.el.addEventListener('raycaster-intersected', function (x) {
+    console.log('Player hit something!');
+    // x.target.setAttribute('material',{
+    //   color: "blue"
+    // })
+    let videoEl = document.querySelector('.candlevid');
+    console.log('videoEl', videoEl)
+  videoEl.setAttribute('material',{
+        opacity: 1
+    });
+    videoEl.emit('move');
+  })
+  
+
+
+//Play the video
+      //Add video to the scene
+      
+}
+
+
+  
+
+
+// update: function(){
+//   this.el.addEventListener('mouseleave', function(x) {
+//     x.target.setAttribute('material', {
+//       color: "red"
+//   })
+// })
+// }
+    });
+</script>
+
+
+
+
+<!-- RAYCASTER FUNCTIONALITY -->
+<script>
+AFRAME.registerComponent('door-check', {
+dependencies: ['raycaster'],
+
+init: function () {
+this.el.addEventListener('raycaster-intersected', function (x) {
+
+console.log('Player hit something!');
+
+x.target.setAttribute('material',{
+color: "blue"
+});
+
+//Play the video
+let videoEl = document.querySelector('#hallway');
+        // videoEl.currentTime = 122;  // Seek to 122 seconds.
+        videoEl.play();
+});
+},
+
+
+
+// update: function(){
+// this.el.addEventListener('mouseleave', function(x) {
+// x.target.setAttribute('material', {
+// color: "red"
+// })
+// })
+// }
+});
+</script>
+
+
+ 
+
+
+    <a-scene id="scene">
+      <!-- <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-sky color="#ECECEC"></a-sky> -->
+    
+      <!-- ASSET MANAGEMENT SYSTEM -->
+        <a-assets>
+
+          <!-- 1. MAIN VIDEO -->
+          <video id="hallway" style="display:none" 
+          autoplay loop crossorigin="anonymous" playsinline webkit-playsinline> 
+            <!-- MP4 video source. -->
+          <source type="video/mp4"
+          src="assets/R0010090_er.MP4" />
+          </video>
+
+          <!-- 2. CANDLE VIDEO -->
+          <video id="candle" 
+          autoplay loop crossorigin="anonymous" playsinline webkit-playsinline> 
+            <!-- MP4 video source. -->
+          <source type="video/mp4"
+          src="assets/a-candle-burning-free-video-cc-by-30_QCrl8GgJ.compressed.mp4" />
+            <video>
+
+
+            <!-- MUSIC -->
+            <audio id="diamond" src="assets/diamond.mp3" preload="auto"></audio>
+                             
+                 
+
+        </a-assets>
+      
+        
+        
+       
+
+
+        
+        <!-- <a-camera look-controls="enabled: true">
+            <a-cursor cursor="fuse: true; fuseTimeout: 500"> -->
+            <a-camera look-controls>
+                <a-entity cursor="rayOrigin: mouse" raycaster="objects: .collidable; showLine: false" line="color: green; opacity: 0.5"></a-entity>
+         </a-camera> <!-- <a-videosphere src="#tribal" loop></a-videosphere> -->
+        
+        <!-- MAIN VIDEO PRIMITIVE -->
+         <a-videosphere src="#hallway" loop rotation='0 -90 0' autoplay>
+        </a-videosphere>
+
+        <!-- CANDLE VIDEO PRIMITIVE -->
+        <!-- <a-video class="candlevid" src="#candle" width="0" height="0" position="75 3 0" rotation="0 -90 0">
+          <a-animation begin='move' attribute='width' to='20' dur="10000"> </a-animation>
+          <a-animation begin='move' attribute='height' to='20' dur="10000"> </a-animation>
+        </a-video> -->
+
+        <a-video class="candlevid" src="#candle" width="0" height="0"
+        material="opacity: 0" 
+        animation="property: width; to: 20; dur: 10000; startEvents: move"
+        animation__2="property: height; to: 20; dur: 10000; startEvents: move" 
+        position="75 3 0" rotation="0 -90 0" >
+        </a-video>
+
+      <!--RAYCASTABLE ENTITIES-->
+    <!-- <a-entity id="player">
+            <a-entity cursor raycaster="objects: .collidable; showLine: true" line="color: green; opacity: 0.5"></a-entity>
+    </a-entity> -->
+    <!-- RED BOX -->
+    <a-entity collider-check class="collidable" geometry="primitive: box" position="5 0 0" material="visible: false"></a-entity>
+    <!-- DOOR TRIGGER -->
+    <a-entity door-check class="collidable" geometry="primitive: box" position="-5 0 0" material="visible: false"></a-entity>
+
+    <!-- SOUND ENTITY -->
+    <a-entity sound="src: #diamond"></a-entity>
+
+          
+
+        <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
+        <!-- <a-videosphere src="africa.mp4"></a-videosphere> -->
+      </a-scene>
+
+      <script>
+        //Initialize the main video at 18 seconds.
+      var videoEl = document.querySelector('#hallway');
+        videoEl.currentTime = 20;  // Seek to 20 seconds.
+        videoEl.pause();
+
+        //Play the music at the beginning
+      var musicEl = document.querySelector('#diamond');
+          musicEl.play();
+
+       
+
+
+      // to play the videosphere
+            // window.onload = () => {
+            //     console.log("loaded")
+            //     console.log(window.document)
+            // }
+        // document.querySelector("#tribal").components.material.material.map.image.play();
+      </script>
+
+      
+
+     
+  </body>
+
+</html>
