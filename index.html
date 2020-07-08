@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-  </head>
-  <body>
 
-     <!-- Use components defined in separate files. -->
-     <script src="arrow-key-rotation.js"></script>
+<head>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
 
-     <!-- <script> 
+<body>
+
+  <!-- Use components defined in separate files. -->
+  <script src="arrow-key-rotation.js"></script>
+
+  <!-- <script> 
 function loadHandler(event) {
   if (window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function') {
     const dialog = document.createElement('a-text')
@@ -36,13 +38,13 @@ function clickHandler() {
       })
   }
      </script>  -->
-      
-  
 
-    
 
-  <script>
-    //RAYCASTER FUNCTIONALITY
+
+
+
+  <!-- <script>
+   
     AFRAME.registerComponent('collider-check', {
 dependencies: ['raycaster'],
 
@@ -61,168 +63,352 @@ init: function () {
   })
 }
 });
-</script>
+</script> -->
 
 
-<script>
-
-    AFRAME.registerComponent('picture-check', {
-dependencies: ['raycaster'],
-
-init: function () {
-  this.el.addEventListener('raycaster-intersected', function (x) {
-    console.log('Player hit something!');
-    // x.target.setAttribute('material',{
-    //   color: "blue"
-    // })
-    let videoSphere = document.querySelector('#rotator');
-    console.log('rotator', rotator)
-      videoSphere.setAttribute('animation', "property: position; to:50 0 -200; dur: 10000; easing: easeInOutQuad")
-    // videoEl.emit('move');
-    })
-  this.el.addEventListener('raycaster-intersected-cleared', function(x){
-    console.log('Player left picture box');
-    let videoSphere = document.querySelector('#rotator');
-    videoSphere.setAttribute('animation', "property: position; to:0 0 0; dur: 10000; easing: easeInOutQuad;")
-  })
-}
-});
-</script>
-
-
-
-
-
-<script>
+  <script>
   //RAYCASTER FUNCTIONALITY
-AFRAME.registerComponent('door-check', {
-dependencies: ['raycaster'],
+  //PICTURE CHECK BOX
+    AFRAME.registerComponent('picture-check', {
+      dependencies: ['raycaster'],
 
-init: function () {
-this.el.addEventListener('raycaster-intersected', function (x) {
+      init: function () {
+        this.el.addEventListener('raycaster-intersected', function (x) {
+          console.log('Player hit something!');
+          // x.target.setAttribute('material',{
+          //   color: "blue"
+          // })
+          let videoSphere = document.querySelector('#rotator');
+          console.log('rotator', rotator)
+          videoSphere.setAttribute('animation', "property: position; to:50 0 -200; dur: 10000; easing: easeInOutQuad")
+          // videoEl.emit('move');
+        })
+        this.el.addEventListener('raycaster-intersected-cleared', function (x) {
+          console.log('Player left picture box');
+          let videoSphere = document.querySelector('#rotator');
+          videoSphere.setAttribute('animation', "property: position; to:0 0 0; dur: 10000; easing: easeInOutQuad;")
+        })
+      }
+    });
+  </script>
 
-console.log('Player hit something!');
-
-x.target.setAttribute('material',{
-color: "blue"
-});
-
-//Play the video
-let videoEl = document.querySelector('#hallway');
-        // videoEl.currentTime = 122;  // Seek to 122 seconds.
-        videoEl.play();
-});
-}
-});
-</script>
 
 
--->
 
 
-    <a-scene id="scene">
-     <!-- <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+  <script>
+    //RAYCASTER FUNCTIONALITY
+    //DOOR CHECK BOX
+    AFRAME.registerComponent('door-check', {
+      dependencies: ['raycaster'],
+
+      init: function () {
+        this.el.addEventListener('raycaster-intersected', function (x) {
+
+          console.log('Player hit something!');
+
+          x.target.setAttribute('material', {
+            color: "blue"
+          });
+
+          //Play the video
+          //let videoEl = document.querySelector('#hallway');
+          // videoEl.currentTime = 122;  // Seek to 122 seconds.
+          //videoEl.play();
+        });
+      }
+    });
+  </script>
+
+
+
+
+  -->
+
+
+  <a-scene id="scene">
+    <!-- <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
       <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
       <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
       <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
       <a-sky color="#ECECEC"></a-sky> -->
-    
-      <!--ASSET MANAGEMENT SYSTEM -->
-        <a-assets>
 
-          <!-- 1. MAIN VIDEO -->
-          <video id="hallway" style="display:none" 
-          autoplay loop crossorigin="anonymous" playsinline webkit-playsinline> 
-            <!-- MP4 video source. -->
-          <source type="video/mp4"
-          src="assets/theone-er-theone_Q8tEpftC.compressed.mp4" />
-          </video>
+    <!--ASSET MANAGEMENT SYSTEM -->
+    <a-assets>
 
-          <!-- 2. CANDLE VIDEO -->
-          <!-- <video id="candle" 
+      <!-- 1. MAIN VIDEO -->
+      <video id="hallway" style="display:none" autoplay crossorigin="anonymous" playsinline webkit-playsinline>
+        <!-- MP4 video source. -->
+        <source type="video/mp4" src="assets/spook-spook_CJCtTrGM.compressed.mp4" />
+      </video>
+
+      <!-- 2. CANDLE VIDEO -->
+      <!-- <video id="candle" 
           autoplay loop crossorigin="anonymous" playsinline webkit-playsinline>  -->
-            <!-- MP4 video source.
+      <!-- MP4 video source.
           <source type="video/mp4"
           src="assets/a-candle-burning-free-video-cc-by-30_QCrl8GgJ.compressed.mp4" />
             <video> -->
 
 
-            <!-- MUSIC -->
-            <audio id="diamond" src="assets/diamond.mp3" preload="auto"></audio>
-                             
-                 
-
-        </a-assets>
-      
-        
-        
-       
+      <!-- MUSIC -->
+      <audio id="diamond" src="assets/diamond.mp3" preload="auto"></audio>
 
 
-        
-        <!-- <a-camera look-controls="enabled: true">
+
+    </a-assets>
+
+
+
+
+
+
+
+    <!-- <a-camera look-controls="enabled: true">
             <a-cursor cursor="fuse: true; fuseTimeout: 500"> -->
-            <a-camera look-controls>
-                <a-entity cursor="rayOrigin: mouse" raycaster="objects: .collidable; showLine: false" line="color: green; opacity: 0.5"></a-entity>
-         </a-camera> <!-- <a-videosphere src="#tribal" loop></a-videosphere> -->
-        
-        <!-- MAIN VIDEO PRIMITIVE -->
-        <a-entity id="rotator" rotation="0 -180 0" animation="property: rotation; to: 0 0 0; dur: 10000; easing: easeInOutQuad">
-            <a-videosphere id="videosphere" src="#hallway" loop rotation='0 90 0' autoplay 
-            animation="property: components.material.material.color; type: color; from: black; to: none; dur: 5000 easing: easeInOutQuad"></a-videosphere>
-        </a-entity>
+    <a-entity id="rig" position="0 1 0">
+      <!-- <a-camera id='camera'> -->
+      <a-entity id='camera' camera look-controls>
+        <a-entity id='pointer' cursor="rayOrigin: mouse" raycaster="objects: .collidable; showLine: false"
+          line="color: green; opacity: 0.5"></a-entity>
+      </a-entity>
+      <!-- </a-camera>  -->
+      <!-- <a-videosphere src="#tribal" loop></a-videosphere> -->
+      <!-- animation="property: rotation; to: {x:0, y:0 z:0}; dur: 10000; easing: easeInOutQuad; startEvents: trackingshot1" -->
+    </a-entity>
 
-        <!-- CANDLE VIDEO PRIMITIVE -->
-        <!-- <a-video class="candlevid" src="#candle" width="0" height="0"
+    <!-- MAIN VIDEO PRIMITIVE -->
+    <a-entity id="rotator" rotation="0 -180 0"
+      animation="property: rotation; to: 0 0 0; dur: 10000; easing: easeInOutQuad">
+      <a-videosphere id="videosphere" src="#hallway" rotation='0 90 0' autoplay 
+        animation__initial="property: components.material.material.color; type: color; from: black; to: none; dur: 5000 easing: easeInOutQuad">
+      </a-videosphere>
+    </a-entity>
+
+    <!-- CANDLE VIDEO PRIMITIVE -->
+    <!-- <a-video class="candlevid" src="#candle" width="0" height="0"
         material="opacity: 0" 
         animation="property: width; to: 20; dur: 10000; startEvents: move"
         animation__2="property: height; to: 20; dur: 10000; startEvents: move" 
         position="75 3 0" rotation="0 -90 0" >
         </a-video> -->
 
-      <!--RAYCASTABLE ENTITIES-->
+    <!-- TEXT PRIMITIVE -->
+    <a-entity class="title" position="3 0 -4" text="width: 12; height: 15; value: THE\nNIGHT\nFROM\nHELL; color: white"
+      visible="false" anchor='center'
+      animation="property: text.opacity; from: 0; to: 1; dur: 5000; startEvents: showTitle"
+      animation__2="property: text.opacity; from: 1; to: 0; dur: 2000; startEvents: hideTitle"></a-entity>
+
+    <!-- TEXT PRIMITIVE -->
+    <a-entity class="card2" position="3 0 -4" text="width: 10; height: 15; value: A\nSHORT\nHORROR\nFILM; color: white"
+      visible="false" anchor='center'
+      animation="property: text.opacity; from: 0; to: 1; dur: 3000; startEvents: showCard2"
+      animation__2="property: text.opacity; from: 1; to: 0; dur: 1000; startEvents: hideCard2"></a-entity>
+
+    <!-- material="color: black; visible: true"  
+    geometry="primitive: plane; height: auto; width: auto" scale="2 2 1"  -->
+    <!-- visible="false" -->
+    <!-- <a-text value="THE NIGHT FROM HELL" negate="false" scale="2 2 1" position="0 0 -4"></a-text> -->
+
+
+
+
+    <!--RAYCASTABLE ENTITIES-->
     <!-- <a-entity id="player">
             <a-entity cursor raycaster="objects: .collidable; showLine: true" line="color: green; opacity: 0.5"></a-entity>
     </a-entity> -->
     <!-- RED BOX -->
-    <a-entity collider-check class="collidable" geometry="primitive: box" position="5 0 0" material="visible: false"></a-entity>
+    <a-entity collider-check class="collidable" geometry="primitive: box" position="5 0 0" material="visible: false">
+    </a-entity>
     <!-- DOOR TRIGGER -->
-    <a-entity door-check class="collidable" geometry="primitive: box" position="-5 0 0" material="visible: false"></a-entity>
+    <a-entity door-check class="collidable" geometry="primitive: box" position="-5 0 0" material="visible: false">
+    </a-entity>
 
     <!-- PICTURE TRIGGER -->
-    <a-entity picture-check class="collidable" geometry="primitive: box" position="-7 0 10" material="visible: true"></a-entity>
+    <a-entity picture-check class="collidable" geometry="primitive: box" position="-7 0 10" material="visible: false">
+    </a-entity>
 
     <!-- SOUND ENTITY -->
     <a-entity sound="src: #diamond"></a-entity>
 
-          
 
-        <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
-        <!-- <a-videosphere src="africa.mp4"></a-videosphere> -->
-      </a-scene>
 
-      <script>
-        //Initialize the main video at 18 seconds.
-      var videoEl = document.querySelector('#hallway');
-      //   videoEl.currentTime = 20;  // Seek to 20 seconds.
-        videoEl.pause();
+    <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
+    <!-- <a-videosphere src="africa.mp4"></a-videosphere> -->
+  </a-scene>
 
+
+  <script>
+    //JAVASCRIPT CODE
+    //
+    //
+    //Initialize the main video at 18 seconds.
+    //   videoEl.currentTime = 20;  // Seek to 20 seconds.
+
+    //Play the music at the beginning
+    // var musicEl = document.querySelector('#diamond');
+    // musicEl.play();
+
+    //Start Video at portrait
+    var videoEl = document.querySelector('#hallway');
+    // videoEl.pause();
+    // let videosphere = document.querySelector("#videosphere")
+    // videosphere.addEventListener('animationcomplete__initial', function (){
+    //   console.log("ANIMATION INTIAL COMPLETE!!")
+    //   videoEl.play()
+    // })
+
+    //SHOW TITLE AT 163 SECONDS
+    let titleFlag = true;
+    let card2Flag = true;
+    let title = document.querySelector('.title')
+    let card2 = document.querySelector('.card2');
+    // var videoEl = document.querySelector('#hallway');
+    videoEl.addEventListener("timeupdate", function () {
+      if (Math.floor(videoEl.currentTime) === 163) {
+        console.log("Title Time reached")
+        title.setAttribute('visible', true)
+        title.emit('showTitle')
+      }
+    });
+
+
+    // let scene = document.querySelector('#scene')
+
+    //EMIT EVENT LISTENER FOR SHOW TITLE
+    title.addEventListener('showTitle', function () {
+      console.log("show title event heard")
+    })
+    //EMIT EVENT LISTENER FOR HIDE TITLE
+    // let title = document.querySelector('.title')
+    title.addEventListener('hideTitle', function () {
+      console.log("hide title event heard")
+    })
+    //EMIT EVENT LISTENER FOR SHOW CARD2
+    card2.addEventListener('showCard2', function () {
+      console.log("show card2 event heard")
+    })
+    //EMIT EVENT LISTENER FOR HIDE CARD2
+    // let card2 = document.querySelector('.card2');
+    card2.addEventListener('hideCard2', function () {
+      console.log("hide card2 event heard")
+    })
+
+
+    //ANIMATION COMPLETE EVENT LISTENER FOR TITLE
+    title.addEventListener('animationcomplete', (e) => {
+      console.log('title ANIMATION COMPLETE!')
+      console.log("titleFlag:", titleFlag)
+      if (titleFlag === false) {
+        card2.setAttribute('visible', true)
+        card2.emit('showCard2');
+        console.log("SHOW CARD2 EVENT EMITTED!!")
+      }
+      else {
+        //START ANIMATION HIDE TITLE
+        title.emit('hideTitle');
+        titleFlag = false
+      }
+    })
+    //ANIMATION COMPLETE EVENT LISTENER FOR CARD2
+    card2.addEventListener('animationcomplete', (e) => {
+      // console.log('card2 ANIMATION COMPLETE!', e)
+      console.log('card2Flag:', card2Flag)
+      if (card2Flag === true) {
+        //START ANIMATION HIDE CARD2
+        card2.emit('hideCard2');
+        card2Flag = false
+        console.log('HIDECARD 2 EMITTED!')
+      }
+
+      //TURN ON CARD 2 AND START ANIMATION
+      // card2.setAttribute('visible', true);
+      // card2.emit('showCard2')
+    })
+
+
+
+    //ROTATE VIDEO TO DOOR AT 27 SECONDS
+    var videoEl = document.querySelector('#hallway');
+    videoEl.addEventListener("timeupdate", function () {
+      let rig = document.querySelector('#rig')
+      let camera = document.querySelector("#camera")
+      let camCoords = camera.getAttribute('rotation')
+      let rigCoords = rig.getAttribute('rotation')
+      // console.log('camCoords', camCoords)
+      // console.log('camCoords', camCoords)
+      // console.log('rigCoords', rigCoords)
+
+      rig.addEventListener('animationcomplete', (e) => {
+        console.log('ANIMATION COMPLETE!')
+        //GRAB CURRENT CAMERA ROTATION
+        camera.setAttribute('look-controls', { enabled: true })
+
+      })
+      //   
+      if (Math.floor(videoEl.currentTime) === 27) {
+        console.log('TIME REACHED')
+        // let a = Math.abs(0 - camCoords.x)
+        let b = Math.abs(90 - camCoords.y)
+        // let c = Math.abs(0 - camCoords.z)
+        camera.setAttribute('look-controls', { enabled: false })
+        rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 10000; easing: easeInOutQuad`)
+      }
+    });
+
+
+    //ROTATE VIDEO TO PORTAIT 
+    var videoEl = document.querySelector('#hallway');
+    let rig = document.querySelector('#rig')
+    let camera = document.querySelector("#camera")
+    let camCoords = camera.getAttribute('rotation')
+    let rigCoords = rig.getAttribute('rotation')
+
+    //RIG EVENT LISTENER FOR ANIMATION COMPLETE EVENT
+    rotator.addEventListener('animationcomplete__rotate', (e) => {
+      console.log('rotation COMPLETE!')
+      //ROTATE RIG TO DOOR AT THE END.
+      console.log('e.target', e.target)
+      let b = Math.abs(90 - camCoords.y)
+      rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 1000; easing: easeInOutQuad`)
+    })
     
 
-        //Play the music at the beginning
-      // var musicEl = document.querySelector('#diamond');
-          // musicEl.play();
-
-        var videoEl = document.querySelector('#hallway');
-        console.log(videoEl.currentTime)
-          videoEl.addEventListener("timeupdate", function(){
-    //currentTime use second, if you want min *60
-      if(Math.floor(videoEl.currentTime) === 154) {
+    //TIME UPDATE FUNCTION
+    videoEl.addEventListener("timeupdate", function () {
+      // console.log('camCoords', camCoords)
+      // console.log('camCoords', camCoords)
+      // console.log('rigCoords', rigCoords)
+      //AT 148, ROTATE THE RIG TO THE PORTRAIT     
+      if (Math.floor(videoEl.currentTime) === 121) {
         console.log('TIME REACHED')
+        let b = Math.abs(- camCoords.y)
+        rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 7000; easing: easeInOutQuad`)
+      }
+    });
+
+    //ROTATE PORTRAIT 360 AT 126 SECONDS
+    var videoEl = document.querySelector('#hallway');
+    var videosphere = document.querySelector('#videosphere')
+    // console.log(videoEl.currentTime)
+    videoEl.addEventListener("timeupdate", function () {
+      if (Math.floor(videoEl.currentTime) === 126) {
+        // console.log('TIME REACHED')
         let rotator = document.querySelector("#rotator")
-        rotator.setAttribute('animation', "property: rotation; to: 0 0 -360; dur: 10000; easing: easeInOutQuad")
-    }
-});
+        rotator.setAttribute('animation__rotate', "property: rotation; to: 0 0 -360; dur: 10000; easing: easeInOutQuad")
+
+        //SLOWLY TURN THE VIDEOSPHERE RED
+        // videosphere.setAttribute('animation__red', "property:components.material.material.color; type: color; to: red; dur: 10000")
+
+      }
+    });
+
+    //WHEN THE PORTRAIT FINISHES ROTATING, EMIT ANIMATIONCOMPLETE
+
+
+    //ROTATE RIG TO DOOR AT THE END
+
+
 
 
       // to play the videosphere
@@ -231,11 +417,11 @@ let videoEl = document.querySelector('#hallway');
             //     console.log(window.document)
             // }
         // document.querySelector("#tribal").components.material.material.map.image.play();
-      </script>
+  </script>
 
-      
 
-     
-  </body>
+
+
+</body>
 
 </html>
