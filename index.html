@@ -11,6 +11,13 @@
   <!-- Use components defined in separate files. -->
   <script src="arrow-key-rotation.js"></script>
 
+  <script>
+    window.addEventListener('click', function () {
+      var vid = document.querySelector('#hallway');
+      vid.play();
+    });
+    </script>
+
   <!-- <script> 
 function loadHandler(event) {
   if (window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function') {
