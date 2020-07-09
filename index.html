@@ -147,7 +147,7 @@ init: function () {
       <!-- 1. MAIN VIDEO -->
       <video id="hallway" style="display:none" autoplay crossorigin="anonymous" playsinline webkit-playsinline>
         <!-- MP4 video source. -->
-        <source type="video/mp4" src="assets/spook-spook_CJCtTrGM.compressed.mp4" />
+        <source type="video/mp4" src="assets/spook-spook-2_73VARpCp.compressed.mp4" />
       </video>
 
       <!-- 2. CANDLE VIDEO -->
@@ -177,6 +177,7 @@ init: function () {
     <a-entity id="rig" position="0 1 0">
       <!-- <a-camera id='camera'> -->
       <a-entity id='camera' camera look-controls>
+        <!-- CONSIDER COMMENTING THE FOLLOWING TWO LINES OUT IN MOBILE -->
         <a-entity id='pointer' cursor="rayOrigin: mouse" raycaster="objects: .collidable; showLine: false"
           line="color: green; opacity: 0.5"></a-entity>
       </a-entity>
@@ -266,14 +267,14 @@ init: function () {
     //   videoEl.play()
     // })
 
-    //SHOW TITLE AT 163 SECONDS
+    //SHOW TITLE AT 140 SECONDS
     let titleFlag = true;
     let card2Flag = true;
     let title = document.querySelector('.title')
     let card2 = document.querySelector('.card2');
     // var videoEl = document.querySelector('#hallway');
     videoEl.addEventListener("timeupdate", function () {
-      if (Math.floor(videoEl.currentTime) === 163) {
+      if (Math.floor(videoEl.currentTime) === 140) {
         console.log("Title Time reached")
         title.setAttribute('visible', true)
         title.emit('showTitle')
@@ -336,7 +337,7 @@ init: function () {
 
 
 
-    //ROTATE VIDEO TO DOOR AT 27 SECONDS
+    //ROTATE VIDEO TO DOOR AT 24 SECONDS
     var videoEl = document.querySelector('#hallway');
     videoEl.addEventListener("timeupdate", function () {
       let rig = document.querySelector('#rig')
@@ -354,7 +355,7 @@ init: function () {
 
       })
       //   
-      if (Math.floor(videoEl.currentTime) === 27) {
+      if (Math.floor(videoEl.currentTime) === 24) {
         console.log('TIME REACHED')
         // let a = Math.abs(0 - camCoords.x)
         let b = Math.abs(90 - camCoords.y)
@@ -377,7 +378,7 @@ init: function () {
       console.log('rotation COMPLETE!')
       //ROTATE RIG TO DOOR AT THE END.
       console.log('e.target', e.target)
-      let b = Math.abs(90 - camCoords.y)
+      let b = Math.abs(90 + camCoords.y)
       rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 1000; easing: easeInOutQuad`)
     })
     
@@ -387,23 +388,23 @@ init: function () {
       // console.log('camCoords', camCoords)
       // console.log('camCoords', camCoords)
       // console.log('rigCoords', rigCoords)
-      //AT 148, ROTATE THE RIG TO THE PORTRAIT     
-      if (Math.floor(videoEl.currentTime) === 121) {
+      //AT 135, ROTATE THE RIG TO THE PORTRAIT     
+      if (Math.floor(videoEl.currentTime) === 135) {
         console.log('TIME REACHED')
         let b = Math.abs(- camCoords.y)
         rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 7000; easing: easeInOutQuad`)
       }
     });
 
-    //ROTATE PORTRAIT 360 AT 126 SECONDS
+    //ROTATE PORTRAIT 180 AT 140 SECONDS
     var videoEl = document.querySelector('#hallway');
     var videosphere = document.querySelector('#videosphere')
     // console.log(videoEl.currentTime)
     videoEl.addEventListener("timeupdate", function () {
-      if (Math.floor(videoEl.currentTime) === 126) {
+      if (Math.floor(videoEl.currentTime) === 140) {
         // console.log('TIME REACHED')
         let rotator = document.querySelector("#rotator")
-        rotator.setAttribute('animation__rotate', "property: rotation; to: 0 0 -360; dur: 10000; easing: easeInOutQuad")
+        rotator.setAttribute('animation__rotate', "property: rotation; to: 0 -180 0; dur: 10000; easing: easeInOutQuad")
 
         //SLOWLY TURN THE VIDEOSPHERE RED
         // videosphere.setAttribute('animation__red', "property:components.material.material.color; type: color; to: red; dur: 10000")
