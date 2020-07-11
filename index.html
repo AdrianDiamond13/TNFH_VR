@@ -143,11 +143,12 @@ init: function () {
 
     <!--ASSET MANAGEMENT SYSTEM -->
     <a-assets>
+      
 
       <!-- 1. MAIN VIDEO -->
-      <video id="hallway" style="display:none" autoplay crossorigin="anonymous" playsinline webkit-playsinline>
+      <video id="hallway" style="display:none" crossorigin="anonymous" playsinline webkit-playsinline>
         <!-- MP4 video source. -->
-        <source type="video/mp4" src="assets/spook-spook-2_73VARpCp.compressed.mp4" />
+        <source type="video/mp4" src="assets/spook-spook-3_0mjEcjn7.compressed.mp4" />
       </video>
 
       <!-- 2. CANDLE VIDEO -->
@@ -158,6 +159,11 @@ init: function () {
           src="assets/a-candle-burning-free-video-cc-by-30_QCrl8GgJ.compressed.mp4" />
             <video> -->
 
+      <!-- 3. HOUSE FIRE BEGINNING VIDEO -->
+      <video id="housefire" style="display:none" autoplay crossorigin="anonymous" playsinline webkit-playsinline>
+        <!-- MP4 video source. -->
+        <source type="video/mp4" src="assets/house-fire-beginning-2_pn9krjJ1.compressed.mp4" />
+      </video>
 
       <!-- MUSIC -->
       <audio id="diamond" src="assets/diamond.mp3" preload="auto"></audio>
@@ -187,12 +193,22 @@ init: function () {
     </a-entity>
 
     <!-- MAIN VIDEO PRIMITIVE -->
-    <a-entity id="rotator" rotation="0 -180 0"
-      animation="property: rotation; to: 0 0 0; dur: 10000; easing: easeInOutQuad">
+    <a-entity id="rotator"> 
+    <!-- rotation="0 -180 0"
+      animation="property: rotation; to: 0 0 0; dur: 10000; easing: easeInOutQuad"> -->
       <a-videosphere id="videosphere" src="#hallway" rotation='0 90 0' autoplay 
+        visible='false'
         animation__initial="property: components.material.material.color; type: color; from: black; to: none; dur: 5000 easing: easeInOutQuad">
       </a-videosphere>
     </a-entity>
+
+     <!-- HOUSE FIRE VIDEO PRIMITIVE -->
+     <a-entity id="housefirerotator" rotation="0 0 0"
+     animation="property: rotation; to: 0 -180 0; dur: 10000; easing: easeInOutQuad">
+     <a-videosphere id="housefire_videosphere" src="#housefire" rotation='0 90 0' autoplay></a-videosphere> 
+       <!-- animation__initial="property: components.material.material.color; type: color; from: black; to: none; dur: 5000 easing: easeInOutQuad">
+     </a-videosphere> -->
+   </a-entity>
 
     <!-- CANDLE VIDEO PRIMITIVE -->
     <!-- <a-video class="candlevid" src="#candle" width="0" height="0"
@@ -202,11 +218,17 @@ init: function () {
         position="75 3 0" rotation="0 -90 0" >
         </a-video> -->
 
+        <!-- TEXT PRIMITIVE -->
+    <a-entity class="tenyearslatercard" position="3 0 -4" text="width: 12; height: 15; value: TEN YEARS LATER; color: white"
+    visible="false" anchor='center'
+    animation="property: text.opacity; from: 0; to: 1; dur: 5000; startEvents: showTenYearsLaterCard"
+    animation__2="property: text.opacity; from: 1; to: 0; dur: 2000; startEvents: hideTenYearsLaterCard"></a-entity>
+
     <!-- TEXT PRIMITIVE -->
     <a-entity class="title" position="3 0 -4" text="width: 12; height: 15; value: THE\nNIGHT\nFROM\nHELL; color: white"
       visible="false" anchor='center'
-      animation="property: text.opacity; from: 0; to: 1; dur: 5000; startEvents: showTitle"
-      animation__2="property: text.opacity; from: 1; to: 0; dur: 2000; startEvents: hideTitle"></a-entity>
+      animation="property: text.opacity; from: 0; to: 1; dur: 3000; startEvents: showTitle"
+      animation__2="property: text.opacity; from: 1; to: 0; dur: 1000; startEvents: hideTitle"></a-entity>
 
     <!-- TEXT PRIMITIVE -->
     <a-entity class="card2" position="3 0 -4" text="width: 10; height: 15; value: A\nSHORT\nHORROR\nFILM; color: white"
@@ -270,6 +292,7 @@ init: function () {
     //SHOW TITLE AT 140 SECONDS
     let titleFlag = true;
     let card2Flag = true;
+    let tenyearsFlag = true;
     let title = document.querySelector('.title')
     let card2 = document.querySelector('.card2');
     // var videoEl = document.querySelector('#hallway');
@@ -336,6 +359,39 @@ init: function () {
     })
 
 
+    //START HALLWAY VIDEO ONCE HOUSE FIRE VIDEO IS ENDING
+    let housefirevid = document.querySelector('#housefire');
+    let tenyearslatercard = document.querySelector('.tenyearslatercard')
+    
+    housefirevid.addEventListener("timeupdate", function (){
+      console.log("listening on house fire vid element")
+      if (Math.floor(housefirevid.currentTime) === 32){
+        videoEl.play()
+        let housefire_videosphere = document.querySelector("#housefire_videosphere");
+        housefire_videosphere.setAttribute('animation', `property: material.opacity; from: 1; to: 0; dur: 30000; easing: easeInOutQuad`)
+        let videosphere = document.querySelector('#videosphere')
+        videosphere.setAttribute('visible', true);
+        //SHOW TEN YEARS LATER CARD
+        tenyearslatercard.setAttribute('visible', true)
+        tenyearslatercard.emit('showTenYearsLaterCard')
+      }
+      })
+
+      //ANIMATION COMPLETE EVENT LISTENER FOR TEN YEARS LATER CARD
+    tenyearslatercard.addEventListener('animationcomplete', (e) => {
+      // console.log('card2 ANIMATION COMPLETE!', e)
+      if (tenyearsFlag === true) {
+        //START ANIMATION HIDE CARD2
+        tenyearslatercard.emit('hideTenYearsLaterCard');
+        tenyearsFlag = false
+      }
+    });
+
+      
+      
+
+
+
 
     //ROTATE VIDEO TO DOOR AT 24 SECONDS
     var videoEl = document.querySelector('#hallway');
@@ -354,7 +410,7 @@ init: function () {
         camera.setAttribute('look-controls', { enabled: true })
 
       })
-      //   
+        
       if (Math.floor(videoEl.currentTime) === 24) {
         console.log('TIME REACHED')
         // let a = Math.abs(0 - camCoords.x)
@@ -378,7 +434,7 @@ init: function () {
       console.log('rotation COMPLETE!')
       //ROTATE RIG TO DOOR AT THE END.
       console.log('e.target', e.target)
-      let b = Math.abs(90 + camCoords.y)
+      let b = Math.abs(90 - camCoords.y)
       rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 1000; easing: easeInOutQuad`)
     })
     
@@ -388,8 +444,8 @@ init: function () {
       // console.log('camCoords', camCoords)
       // console.log('camCoords', camCoords)
       // console.log('rigCoords', rigCoords)
-      //AT 135, ROTATE THE RIG TO THE PORTRAIT     
-      if (Math.floor(videoEl.currentTime) === 135) {
+      //AT 133, ROTATE THE RIG TO THE PORTRAIT     
+      if (Math.floor(videoEl.currentTime) === 133) {
         console.log('TIME REACHED')
         let b = Math.abs(- camCoords.y)
         rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 7000; easing: easeInOutQuad`)
@@ -401,10 +457,10 @@ init: function () {
     var videosphere = document.querySelector('#videosphere')
     // console.log(videoEl.currentTime)
     videoEl.addEventListener("timeupdate", function () {
-      if (Math.floor(videoEl.currentTime) === 140) {
+      if (Math.floor(videoEl.currentTime) === 138) {
         // console.log('TIME REACHED')
         let rotator = document.querySelector("#rotator")
-        rotator.setAttribute('animation__rotate', "property: rotation; to: 0 -180 0; dur: 10000; easing: easeInOutQuad")
+        rotator.setAttribute('animation__rotate', "property: rotation; to: 0 0 -360; dur: 10000; easing: easeInOutQuad")
 
         //SLOWLY TURN THE VIDEOSPHERE RED
         // videosphere.setAttribute('animation__red', "property:components.material.material.color; type: color; to: red; dur: 10000")
