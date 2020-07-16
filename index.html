@@ -131,7 +131,7 @@ init: function () {
 
 
 
-  -->
+  <!-- -->
 
 
   <a-scene id="scene">
@@ -146,9 +146,9 @@ init: function () {
       
 
       <!-- 1. MAIN VIDEO -->
-      <video id="hallway" style="display:none" crossorigin="anonymous" playsinline webkit-playsinline>
+      <video id="hallway" style="display:none" autoplay crossorigin="anonymous" playsinline webkit-playsinline>
         <!-- MP4 video source. -->
-        <source type="video/mp4" src="assets/spook-spook-3_0mjEcjn7.compressed.mp4" />
+        <source type="video/mp4" src="assets/spook-spook-4_5IdQodQM.compressed.mp4" />
       </video>
 
       <!-- 2. CANDLE VIDEO -->
@@ -160,10 +160,10 @@ init: function () {
             <video> -->
 
       <!-- 3. HOUSE FIRE BEGINNING VIDEO -->
-      <video id="housefire" style="display:none" autoplay crossorigin="anonymous" playsinline webkit-playsinline>
+      <!-- <video id="housefire" style="display:none" autoplay crossorigin="anonymous" playsinline webkit-playsinline> -->
         <!-- MP4 video source. -->
-        <source type="video/mp4" src="assets/house-fire-beginning-2_pn9krjJ1.compressed.mp4" />
-      </video>
+        <!-- <source type="video/mp4" src="assets/house-fire-beginning-2_pn9krjJ1.compressed.mp4" />
+      </video> -->
 
       <!-- MUSIC -->
       <audio id="diamond" src="assets/diamond.mp3" preload="auto"></audio>
@@ -193,22 +193,22 @@ init: function () {
     </a-entity>
 
     <!-- MAIN VIDEO PRIMITIVE -->
-    <a-entity id="rotator"> 
-    <!-- rotation="0 -180 0"
-      animation="property: rotation; to: 0 0 0; dur: 10000; easing: easeInOutQuad"> -->
-      <a-videosphere id="videosphere" src="#hallway" rotation='0 90 0' autoplay 
-        visible='false'
-        animation__initial="property: components.material.material.color; type: color; from: black; to: none; dur: 5000 easing: easeInOutQuad">
-      </a-videosphere>
-    </a-entity>
+    <a-entity id="rotator" 
+    rotation="0 0 0"
+      animation="property: rotation; to: 0 -180 0; dur: 10000; easing: easeInOutQuad">
+      <a-videosphere id="videosphere" src="#hallway" rotation='0 90 0' autoplay
+
+      animation__initial="property: components.material.material.color; type: color; from: black; to: none; dur: 5000 easing: easeInOutQuad">
+    </a-videosphere>
+  </a-entity>
 
      <!-- HOUSE FIRE VIDEO PRIMITIVE -->
-     <a-entity id="housefirerotator" rotation="0 0 0"
+     <!-- <a-entity id="housefirerotator" rotation="0 0 0"
      animation="property: rotation; to: 0 -180 0; dur: 10000; easing: easeInOutQuad">
-     <a-videosphere id="housefire_videosphere" src="#housefire" rotation='0 90 0' autoplay></a-videosphere> 
+     <a-videosphere id="housefire_videosphere" src="#housefire" rotation='0 90 0' autoplay></a-videosphere>  -->
        <!-- animation__initial="property: components.material.material.color; type: color; from: black; to: none; dur: 5000 easing: easeInOutQuad">
      </a-videosphere> -->
-   </a-entity>
+   <!-- </a-entity> -->
 
     <!-- CANDLE VIDEO PRIMITIVE -->
     <!-- <a-video class="candlevid" src="#candle" width="0" height="0"
@@ -297,7 +297,7 @@ init: function () {
     let card2 = document.querySelector('.card2');
     // var videoEl = document.querySelector('#hallway');
     videoEl.addEventListener("timeupdate", function () {
-      if (Math.floor(videoEl.currentTime) === 140) {
+      if (Math.floor(videoEl.currentTime) === 172) {
         console.log("Title Time reached")
         title.setAttribute('visible', true)
         title.emit('showTitle')
@@ -360,17 +360,19 @@ init: function () {
 
 
     //START HALLWAY VIDEO ONCE HOUSE FIRE VIDEO IS ENDING
-    let housefirevid = document.querySelector('#housefire');
+    // let housefirevid = document.querySelector('#housefire');
     let tenyearslatercard = document.querySelector('.tenyearslatercard')
     
-    housefirevid.addEventListener("timeupdate", function (){
-      console.log("listening on house fire vid element")
-      if (Math.floor(housefirevid.currentTime) === 32){
-        videoEl.play()
-        let housefire_videosphere = document.querySelector("#housefire_videosphere");
-        housefire_videosphere.setAttribute('animation', `property: material.opacity; from: 1; to: 0; dur: 30000; easing: easeInOutQuad`)
-        let videosphere = document.querySelector('#videosphere')
-        videosphere.setAttribute('visible', true);
+    videoEl.addEventListener("timeupdate", function (){
+      // console.log("listening on house fire vid element")
+      if (Math.floor(videoEl.currentTime) === 29){
+        // videoEl.play()
+        // let housefire_videosphere = document.querySelector("#housefire_videosphere");
+        // let videosphere = document.querySelector('#videosphere')
+        // videosphere.setAttribute('visible', true);
+        // videosphere.setAttribute('animation', `property: material.opacity; from: 1; to: 0; dur: 30000; easing: easeInOutQuad`)
+        let rotator = document.querySelector("#rotator");
+        rotator.setAttribute('animation', "property: rotation; to: 0 0 0; dur: 10000; easing: easeInOutQuad")
         //SHOW TEN YEARS LATER CARD
         tenyearslatercard.setAttribute('visible', true)
         tenyearslatercard.emit('showTenYearsLaterCard')
@@ -411,7 +413,7 @@ init: function () {
 
       })
         
-      if (Math.floor(videoEl.currentTime) === 24) {
+      if (Math.floor(videoEl.currentTime) === 53) {
         console.log('TIME REACHED')
         // let a = Math.abs(0 - camCoords.x)
         let b = Math.abs(90 - camCoords.y)
@@ -445,7 +447,7 @@ init: function () {
       // console.log('camCoords', camCoords)
       // console.log('rigCoords', rigCoords)
       //AT 133, ROTATE THE RIG TO THE PORTRAIT     
-      if (Math.floor(videoEl.currentTime) === 133) {
+      if (Math.floor(videoEl.currentTime) === 167) {
         console.log('TIME REACHED')
         let b = Math.abs(- camCoords.y)
         rig.setAttribute('animation', `property: rotation; to: 0 ${b} 0; dur: 7000; easing: easeInOutQuad`)
@@ -457,10 +459,10 @@ init: function () {
     var videosphere = document.querySelector('#videosphere')
     // console.log(videoEl.currentTime)
     videoEl.addEventListener("timeupdate", function () {
-      if (Math.floor(videoEl.currentTime) === 138) {
+      if (Math.floor(videoEl.currentTime) === 174) {
         // console.log('TIME REACHED')
         let rotator = document.querySelector("#rotator")
-        rotator.setAttribute('animation__rotate', "property: rotation; to: 0 0 -360; dur: 10000; easing: easeInOutQuad")
+        rotator.setAttribute('animation__rotate', "property: rotation; to: 0 -360 0; dur: 10000; easing: easeInOutQuad")
 
         //SLOWLY TURN THE VIDEOSPHERE RED
         // videosphere.setAttribute('animation__red', "property:components.material.material.color; type: color; to: red; dur: 10000")
